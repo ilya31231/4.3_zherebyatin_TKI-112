@@ -1,72 +1,105 @@
-#include <cstdlib>
+п»ї#include <cstdlib>
 #include <iostream>
 #include <ctime>
 #include <iomanip>
 
 using namespace std;
 
+int const zero = 0;
 
-int f1(const int width, const int lengths, int punkt)
+
+void random(const int width, const int lengths, int punkt);
+
+void manual(int width, int lengths, int punkt2);
+
+
+
+int main(int argc, char* argv[])
 {
-    int array1[width][lengths]; //создаётся массив
-    int array2[width][lengths]; //создаётся массив
+    int punkt1;
+    cout << "Р•СЃР»Рё РЅСѓР¶РЅРѕ Р·Р°РїРѕР»РЅРµРЅРёС‚СЊ РјР°СЃСЃРёРІ СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё, РІРІРµРґРё 1 " << endl << "Р•СЃР»Рё РЅР°Рґo Р·Р°РїРѕР»РЅРёС‚СЊ РјР°СЃСЃРёРІ РІРІРѕРґРѕРј СЃ РєР»Р°РІРёР°С‚СѓСЂС‹, РІРІРµРґРё 2" << endl;
+    cin >> punkt1;
+    cout << "Р•Р»СЃРё РЅСѓР¶РµРЅ 2-Р№ РїСѓРЅРєС‚, С‚Рѕ РІРІРµРґРё 2" << endl;
+    int punkt2;
+    cin >> punkt2;
+    int width, lengths;
+    cout << "Р’РІРµРґРёС‚Рµ С€РёСЂРёРЅСѓ РјР°СЃСЃРёРІР°" << endl;
+    cin >> width; //Р’РІРѕРґРёС‚СЃСЏ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°
+    cout << "Р’РІРµРґРёС‚Рµ РґР»РёРЅРЅСѓ РјР°СЃСЃРёРІР°" << endl;
+    cin >> lengths; //Р’РІРѕРґРёС‚СЃСЏ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°
+    if (punkt1 == 1)
+    {
+        random(width, lengths, punkt2); //РІС‹Р·С‹РІР°РµРј 1-СЋ С„СѓРЅРєС†РёСЋ
+    }
+    else
+    {
+        manual(width, lengths, punkt2); //РІС‹Р·С‹РІР°РµРј 2-СЋ С„СѓРЅРєС†РёСЋ
+    }
+
+    return EXIT_SUCCESS;
+}
+
+
+void random(const int width, const int lengths, int punkt)
+{
+    int array1[width][lengths]; //СЃРѕР·РґР°С‘С‚СЃСЏ РјР°СЃСЃРёРІ
+    int array2[width][lengths]; //СЃРѕР·РґР°С‘С‚СЃСЏ РјР°СЃСЃРёРІ
 
     srand(time(NULL));
-    cout << "Вот ваш массив" << endl;
+    cout << "Р’РѕС‚ РІР°С€ РјР°СЃСЃРёРІ" << endl;
     for (int i = 0; i < width; i++)
         for (int j = 0; j < lengths; j++)
         {
-            array1[i][j] = rand(); //заполяем массив рандомными элементами
-            array2[i][j] = array1[i][j]; //копируем 1-й массив во второй
+            array1[i][j] = rand(); //Р·Р°РїРѕР»СЏРµРј РјР°СЃСЃРёРІ СЂР°РЅРґРѕРјРЅС‹РјРё СЌР»РµРјРµРЅС‚Р°РјРё
+            array2[i][j] = array1[i][j]; //РєРѕРїРёСЂСѓРµРј 1-Р№ РјР°СЃСЃРёРІ РІРѕ РІС‚РѕСЂРѕР№
         }
 
 
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
+            cout << array1[i][j] << "  "; //РІС‹РІРѕРґРёРј РјР°СЃСЃРёРІ
         cout << endl;
 
     }
 
     cout << endl;
 
-    cout << "После выполнения пункта 1 массив стал выглядить вот так:" << endl;
+    cout << "РџРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ РїСѓРЅРєС‚Р° 1 РјР°СЃСЃРёРІ СЃС‚Р°Р» РІС‹РіР»СЏРґРёС‚СЊ РІРѕС‚ С‚Р°Рє:" << endl;
     for (int i = 0; i < width; i++)
     {
         int max = 0;
         for (int j = 0; j < lengths; j++)
             if (array1[i][j] > array1[i][max])
-                max = j; //находим максимальный элемент в строке
-        array1[i][max] *= 0; //заменяем элемент на 0
+                max = j; //РЅР°С…РѕРґРёРј РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РІ СЃС‚СЂРѕРєРµ
+        array1[i][max] *= zero; //Р·Р°РјРµРЅСЏРµРј СЌР»РµРјРµРЅС‚ РЅР° 0
     }
 
 
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
+            cout << array1[i][j] << "  "; //РІС‹РІРѕРґРёРј РјР°СЃСЃРёРІ
         cout << endl;
 
     }
 
 
     cout << endl << endl;
-    if (punkt == 2) //проверяем, нужен ли пункт 2 
+    if (punkt == 2) //РїСЂРѕРІРµСЂСЏРµРј, РЅСѓР¶РµРЅ Р»Рё РїСѓРЅРєС‚ 2 
     {
-        cout << "После выполнения 2-го пункта, массив выглядит вот так:" << endl;
+        cout << "РџРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ 2-РіРѕ РїСѓРЅРєС‚Р°, РјР°СЃСЃРёРІ РІС‹РіР»СЏРґРёС‚ РІРѕС‚ С‚Р°Рє:" << endl;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < lengths; j++)
             {
                 int f = j;
-                int ff = 0;
                 if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
                 {
 
                     for (int mm = 0; mm < lengths; mm++)
                     {
-                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строку
+                        cout << "0" << " ";// Р’СЃС‚Р°РІР»СЏРµРј РїРµСЂРµРґ РІСЃРµРјРё СЃС‚СЂРѕРєР°РјРё, РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ РєРѕС‚РѕСЂС‹С… РґРµР»РёС‚СЃСЏ РЅР° 3, СЃС‚СЂРѕРєСѓ
 
                     }
                 }
@@ -75,54 +108,54 @@ int f1(const int width, const int lengths, int punkt)
                     cout << endl;
                 }
 
-                cout << array2[i][j] << "  "; //выводит 2-й массив
-                ff += 1;
+                cout << array2[i][j] << "  "; //РІС‹РІРѕРґРёС‚ 2-Р№ РјР°СЃСЃРёРІ
             }
             cout << endl;
         }
     }
 }
 
-int f2(int width, int lengths, int punkt2)
+
+void manual(int width, int lengths, int punkt2)
 {
-    int array1[width][lengths]; //создаётся массив
-    int array2[width][lengths]; //создаётся массив
+    int array1[width][lengths]; //СЃРѕР·РґР°С‘С‚СЃСЏ РјР°СЃСЃРёРІ
+    int array2[width][lengths]; //СЃРѕР·РґР°С‘С‚СЃСЏ РјР°СЃСЃРёРІ
 
     srand(time(NULL));
-    cout << "Заполните массив вводос с клавиатуры" << endl;
+    cout << "Р—Р°РїРѕР»РЅРёС‚Рµ РјР°СЃСЃРёРІ РІРІРѕРґРѕСЃ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹" << endl;
     for (int i = 0; i < width; i++)
         for (int j = 0; j < lengths; j++)
         {
 
-            cin >> array1[i][j]; //вводим массив с клавиатуры
-            array2[i][j] = array1[i][j]; //копируем 1-й массив во второй
+            cin >> array1[i][j]; //РІРІРѕРґРёРј РјР°СЃСЃРёРІ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
+            array2[i][j] = array1[i][j]; //РєРѕРїРёСЂСѓРµРј 1-Р№ РјР°СЃСЃРёРІ РІРѕ РІС‚РѕСЂРѕР№
         }
-    cout << "Вот ваш массив" << endl;
+    cout << "Р’РѕС‚ РІР°С€ РјР°СЃСЃРёРІ" << endl;
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
+            cout << array1[i][j] << "  "; //РІС‹РІРѕРґРёРј РјР°СЃСЃРёРІ
         cout << endl;
 
     }
 
     cout << endl;
 
-    cout << "После выполнения пункта 1 массив стал выглядить вот так:" << endl;
+    cout << "РџРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ РїСѓРЅРєС‚Р° 1 РјР°СЃСЃРёРІ СЃС‚Р°Р» РІС‹РіР»СЏРґРёС‚СЊ РІРѕС‚ С‚Р°Рє:" << endl;
     for (int i = 0; i < width; i++)
     {
         int max = 0;
         for (int j = 0; j < lengths; j++)
             if (array1[i][j] > array1[i][max])
-                max = j; //находим максимальный элемент в строке
-        array1[i][max] *= 0; //заменяем элемент на 0
+                max = j; //РЅР°С…РѕРґРёРј РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РІ СЃС‚СЂРѕРєРµ
+        array1[i][max] *= zero; //Р·Р°РјРµРЅСЏРµРј СЌР»РµРјРµРЅС‚ РЅР° 0
     }
 
 
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
+            cout << array1[i][j] << "  "; //РІС‹РІРѕРґРёРј РјР°СЃСЃРёРІ
         cout << endl;
 
     }
@@ -131,21 +164,20 @@ int f2(int width, int lengths, int punkt2)
     cout << endl << endl;
 
 
-    if (punkt2 == 2) //проверяем, нужен ли пункт 2 
+    if (punkt2 == 2) //РїСЂРѕРІРµСЂСЏРµРј, РЅСѓР¶РµРЅ Р»Рё РїСѓРЅРєС‚ 2 
     {
-        cout << "После выполнения 2-го пункта, массив выглядит вот так:" << endl;
+        cout << "РџРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ 2-РіРѕ РїСѓРЅРєС‚Р°, РјР°СЃСЃРёРІ РІС‹РіР»СЏРґРёС‚ РІРѕС‚ С‚Р°Рє:" << endl;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < lengths; j++)
             {
                 int f = j;
-                int ff = 0;
                 if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
                 {
 
                     for (int mm = 0; mm < lengths; mm++)
                     {
-                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строкух 
+                        cout << "0" << " ";// Р’СЃС‚Р°РІР»СЏРµРј РїРµСЂРµРґ РІСЃРµРјРё СЃС‚СЂРѕРєР°РјРё, РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ РєРѕС‚РѕСЂС‹С… РґРµР»РёС‚СЃСЏ РЅР° 3, СЃС‚СЂРѕРєСѓС… 
 
                     }
                 }
@@ -155,35 +187,9 @@ int f2(int width, int lengths, int punkt2)
                 }
 
                 cout << array2[i][j] << "  ";
-                ff += 1;
             }
             cout << endl;
         }
     }
 }
 
-
-int main(int argc, char* argv[])
-{
-    int punkt1;
-    cout << "Если нужно заполненить массив случайными числами, введи 1 " << endl << "Если надo заполнить массив вводом с клавиатуры, введи 2" << endl;
-    cin >> punkt1;
-    cout << "Елси нужен 2-й пункт, то введи 2" << endl;
-    int punkt2;
-    cin >> punkt2;
-    int width, lengths, q, w;
-    cout << "Введите ширину массива" << endl;
-    cin >> width; //Вводится размеры массива
-    cout << "Введите длинну массива" << endl;
-    cin >> lengths; //Вводится размеры массива
-    if (punkt1 == 1)
-    {
-        f1(width, lengths, punkt2); //вызываем 1-ю функцию
-    }
-    else
-    {
-        f2(width, lengths, punkt2); //вызываем 2-ю функцию
-    }
-
-    return EXIT_SUCCESS;
-}
