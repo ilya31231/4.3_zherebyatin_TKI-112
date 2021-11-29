@@ -2,6 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include <iomanip>
+#include <random> 
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
     cout << "Елси нужен 2-й пункт, то введи 2" << endl;
     int punkt2;
     cin >> punkt2;
-    int width, lengths;
+    size_t width, lengths;
     cout << "Введите ширину массива" << endl;
     cin >> width; //Вводится размеры массива
     cout << "Введите длинну массива" << endl;
@@ -42,15 +43,17 @@ int main(int argc, char* argv[])
 
 void random(const int width, const int lengths, int punkt)
 {
-    int array1[width][lengths]; //создаётся массив
-    int array2[width][lengths]; //создаётся массив
+    size_t array1[width][lengths]; //создаётся массив
+    size_t array2[width][lengths]; //создаётся массив
 
-    srand(time(NULL));
+    mt19937 gen;
+    gen.seed(time(0));
     cout << "Вот ваш массив" << endl;
     for (int i = 0; i < width; i++)
         for (int j = 0; j < lengths; j++)
         {
-            array1[i][j] = rand(); //заполяем массив рандомными элементами
+
+            array1[i][j] = gen(); //заполяем массив рандомными элементами
             array2[i][j] = array1[i][j]; //копируем 1-й массив во второй
         }
 
@@ -118,8 +121,8 @@ void random(const int width, const int lengths, int punkt)
 
 void manual(int width, int lengths, int punkt2)
 {
-    int array1[width][lengths]; //создаётся массив
-    int array2[width][lengths]; //создаётся массив
+    size_t array1[width][lengths]; //создаётся массив
+    size_t array2[width][lengths]; //создаётся массив
 
     srand(time(NULL));
     cout << "Заполните массив вводос с клавиатуры" << endl;
