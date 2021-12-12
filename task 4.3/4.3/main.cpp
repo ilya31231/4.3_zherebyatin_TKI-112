@@ -5,194 +5,193 @@
 #include <random> 
 
 using namespace std;
+// переменные r, i, j, f, z введены для перебора последовательностей
 
-int const zero = 0;
+void manual(int* array1, const int sum, const int dlin, const int hir, int* array2);
+void rando(int* array1, const int sum, const int dlin, const int hir, int* array2);
 
-
-void random(const int width, const int lengths, int punkt);
-
-void manual(int width, int lengths, int punkt2);
-
-
-
-int main(int argc, char* argv[])
+int main()
 {
-    int punkt1;
-    cout << "Если нужно заполненить массив случайными числами, введи 1 " << endl << "Если надo заполнить массив вводом с клавиатуры, введи 2" << endl;
-    cin >> punkt1;
-    cout << "Елси нужен 2-й пункт, то введи 2" << endl;
-    int punkt2;
+    int dlin, hir, sum, random, punkt2;
+    cout << "Введи длинну массива ";
+    cin >> dlin;
+    cout << "Введи ширину массива ";
+    cin >> hir;
+    cout << "Если хочешь заполнить массив случайными числами введи 1 ";
+    cin >> random;
+    cout << "Если нужен пункт 2 введи 2 ";
     cin >> punkt2;
-    size_t width, lengths;
-    cout << "Введите ширину массива" << endl;
-    cin >> width; //Вводится размеры массива
-    cout << "Введите длинну массива" << endl;
-    cin >> lengths; //Вводится размеры массива
-    if (punkt1 == 1)
+
+    sum = dlin * hir;
+
+    int* array1 = new int[sum];
+    int* array2 = new int[sum];
+
+    for (int i = 0; i < sum; i++)
     {
-        random(width, lengths, punkt2); //вызываем 1-ю функцию
+        array1[i] = 0;
+
+    }
+    if (random == 1)
+    {
+        rando(array1, sum, dlin, hir, array2);
     }
     else
     {
-        manual(width, lengths, punkt2); //вызываем 2-ю функцию
+        manual(array1, sum, dlin, hir, array2);
     }
 
-    return EXIT_SUCCESS;
+    int i = 0;
+    int f = 1;
+    cout << "После выполнения пункта 1, массив выглядит так " << endl;
+    while (i < sum)
+    {
+
+        cout << array1[i] << " ";
+        if (f % dlin == 0)
+        {
+            cout << endl;
+        }
+        i++;
+        f++;
+
+    }
+
+    if (punkt2 == 2)
+    {
+        cout << endl << "После выполнения пункта 2, массив выглядит так" << endl;
+        int i = 0;
+        int r = 1;
+        int z = 1;
+
+        while (i <= sum)
+        {
+
+            if (i < r * dlin)
+            {
+                r = r + 1;
+            }
+
+            if (i == 0 || (i - r * dlin) == 0)
+            {
+                if (array2[i] % 3 == 0 && array2[i] != 0)
+                {
+                    for (int j = 0; j < dlin; j++)
+                    {
+                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строку
+                    }
+                    cout << endl;
+                }
+
+            }
+            if (i > z * dlin)
+            {
+                cout << endl;
+                z = z + 1;
+            }
+            cout << array2[i] << " ";
+
+            i++;
+
+        }
+    }
+
+    return 0;
 }
 
 
-void random(const int width, const int lengths, int punkt)
+
+void rando(int* array1, const int sum, const int dlin, const int hir, int* array2)
 {
-    size_t array1[width][lengths]; //создаётся массив
-    size_t array2[width][lengths]; //создаётся массив
 
     mt19937 gen;
     gen.seed(time(0));
-    cout << "Вот ваш массив" << endl;
-    for (int i = 0; i < width; i++)
-        for (int j = 0; j < lengths; j++)
+
+    for (int i = 0; i < sum; i++)
+    {
+        array1[i] = gen();
+        array2[i] = array1[i];
+    }
+
+
+    int i = 0;
+    int r = 1;
+    int max = 0;
+    int f = 0;
+
+    while (i <= sum)
+    {
+        if (i <= dlin * r)
         {
-
-            array1[i][j] = gen(); //заполяем массив рандомными элементами
-            array2[i][j] = array1[i][j]; //копируем 1-й массив во второй
-        }
-
-
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
-        cout << endl;
-
-    }
-
-    cout << endl;
-
-    cout << "После выполнения пункта 1 массив стал выглядить вот так:" << endl;
-    for (int i = 0; i < width; i++)
-    {
-        int max = 0;
-        for (int j = 0; j < lengths; j++)
-            if (array1[i][j] > array1[i][max])
-                max = j; //находим максимальный элемент в строке
-        array1[i][max] *= zero; //заменяем элемент на 0
-    }
-
-
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
-        cout << endl;
-
-    }
-
-
-    cout << endl << endl;
-    if (punkt == 2) //проверяем, нужен ли пункт 2 
-    {
-        cout << "После выполнения 2-го пункта, массив выглядит вот так:" << endl;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < lengths; j++)
+            if (array1[i] >= array1[max])
             {
-                int f = j;
-                if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
-                {
-
-                    for (int mm = 0; mm < lengths; mm++)
-                    {
-                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строку
-
-                    }
-                }
-                if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
-                {
-                    cout << endl;
-                }
-
-                cout << array2[i][j] << "  "; //выводит 2-й массив
+                max = i;
             }
-            cout << endl;
+            if (i == dlin * r)
+            {
+                array1[max] = 0;
+            }
+
         }
+        else
+        {
+            array1[max] = 0;
+            r = r + 1;
+            max = 0;
+            if (i < dlin * r)
+            {
+                if (array1[i] >= array1[max])
+                {
+                    max = i;
+                }
+
+            }
+        }
+        i++;
     }
 }
 
-
-void manual(int width, int lengths, int punkt2)
+void manual(int* array1, const int sum, const int dlin, const int hir, int* array2)
 {
-    size_t array1[width][lengths]; //создаётся массив
-    size_t array2[width][lengths]; //создаётся массив
 
-    srand(time(NULL));
-    cout << "Заполните массив вводос с клавиатуры" << endl;
-    for (int i = 0; i < width; i++)
-        for (int j = 0; j < lengths; j++)
+    for (int i = 0; i < sum; i++)
+    {
+        cin >> array1[i];
+        array2[i] = array1[i];
+    }
+    int i = 0;
+    int r = 1;
+    int max = 0;
+    int f = 0;
+
+    while (i <= sum)
+    {
+        if (i <= dlin * r)
         {
-
-            cin >> array1[i][j]; //вводим массив с клавиатуры
-            array2[i][j] = array1[i][j]; //копируем 1-й массив во второй
-        }
-    cout << "Вот ваш массив" << endl;
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
-        cout << endl;
-
-    }
-
-    cout << endl;
-
-    cout << "После выполнения пункта 1 массив стал выглядить вот так:" << endl;
-    for (int i = 0; i < width; i++)
-    {
-        int max = 0;
-        for (int j = 0; j < lengths; j++)
-            if (array1[i][j] > array1[i][max])
-                max = j; //находим максимальный элемент в строке
-        array1[i][max] *= zero; //заменяем элемент на 0
-    }
-
-
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < lengths; j++)
-            cout << array1[i][j] << "  "; //выводим массив
-        cout << endl;
-
-    }
-
-
-    cout << endl << endl;
-
-
-    if (punkt2 == 2) //проверяем, нужен ли пункт 2 
-    {
-        cout << "После выполнения 2-го пункта, массив выглядит вот так:" << endl;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < lengths; j++)
+            if (array1[i] >= array1[max])
             {
-                int f = j;
-                if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
-                {
-
-                    for (int mm = 0; mm < lengths; mm++)
-                    {
-                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строкух 
-
-                    }
-                }
-                if (array2[i][0] % 3 == 0 && f == 0 && array2[f][0] != 0)
-                {
-                    cout << endl;
-                }
-
-                cout << array2[i][j] << "  ";
+                max = i;
             }
-            cout << endl;
+            if (i == dlin * r)
+            {
+                array1[max] = 0;
+            }
+
         }
+        else
+        {
+            array1[max] = 0;
+            r = r + 1;
+            max = 0;
+            if (i < dlin * r)
+            {
+                if (array1[i] >= array1[max])
+                {
+                    max = i;
+                }
+
+            }
+        }
+        i++;
     }
 }
-
