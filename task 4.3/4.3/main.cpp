@@ -5,142 +5,138 @@
 #include <random> 
 
 using namespace std;
-// переменные r, i, j, f, z введены для перебора последовательностей
 
-void manual(int* array1, const int sum, const int dlin, const int hir, int* array2);
-void rando(int* array1, const int sum, const int dlin, const int hir, int* array2);
+void zapolnrandom(int* array3, int* array4, const int width, const int lengths);
+void zapolnvod(int* array3, int* array4, const int width, const int lengths);
+void zamena(int* array3, const int width, const int lengths);
+void punkt(int* array4, const int width, const int lengths);
 
-int main()
+int main(int argc, char* argv[])
 {
-    int dlin, hir, sum, random, punkt2;
-    cout << "Введи длинну массива ";
-    cin >> dlin;
-    cout << "Введи ширину массива ";
-    cin >> hir;
-    cout << "Если хочешь заполнить массив случайными числами введи 1 ";
-    cin >> random;
-    cout << "Если нужен пункт 2 введи 2 ";
+    int punkt1;
+    cout << "Если нужно заполненить массив случайными числами, введи 1 " << endl << "Если надo заполнить массив вводом с клавиатуры, введи 2" << endl;
+    cin >> punkt1;
+    cout << "Елси нужен 2-й пункт, то введи 2" << endl;
+    int punkt2;
     cin >> punkt2;
+    size_t width, lengths;
+    cout << "Введите ширину массива" << endl;
+    cin >> width; //Вводится размеры массива m
+    cout << "Введите длинну массива" << endl;
+    cin >> lengths; //Вводится размеры массива n
 
-    sum = dlin * hir;
+    int* array3 = new int[width * lengths];
+    int* array4 = new int[width * lengths];
 
-    int* array1 = new int[sum];
-    int* array2 = new int[sum];
 
-    for (int i = 0; i < sum; i++)
+    if (punkt1 == 1)
     {
-        array1[i] = 0;
-
-    }
-    if (random == 1)
-    {
-        rando(array1, sum, dlin, hir, array2);
+        zapolnrandom(array3, array4, width, lengths); //вызываем 1-ю функцию
     }
     else
     {
-        manual(array1, sum, dlin, hir, array2);
+        cout << "Заполните массив вводом с клавиатуры" << endl;
+        zapolnvod(array3, array4, width, lengths); //вызываем 2-ю функцию
     }
 
-    int i = 0;
-    int f = 1;
-    cout << "После выполнения пункта 1, массив выглядит так " << endl;
-    while (i < sum)
+    cout << "Вот ваш массив" << endl;
+    int f = 0;
+    for (int i = 0; i < width; i++)
     {
-
-        cout << array1[i] << " ";
-        if (f % dlin == 0)
+        for (int j = 0; j < lengths; j++)
         {
-            cout << endl;
+            cout << array3[f] << "  ";
+            f++;
         }
-        i++;
-        f++;
+        cout << endl;
+
+    }
+
+    cout << "После выполнения пункта 1 массив стал выглядить вот так:" << endl;
+    zamena(array3, width, lengths);
+
+    f = 0;
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < lengths; j++)
+        {
+            cout << array3[f] << "  ";
+            f++;
+        }
+        cout << endl;
 
     }
 
     if (punkt2 == 2)
     {
-        cout << endl << "После выполнения пункта 2, массив выглядит так" << endl;
-        int i = 0;
-        int r = 1;
-        int z = 1;
-
-        while (i <= sum)
-        {
-
-            if (i < r * dlin)
-            {
-                r = r + 1;
-            }
-
-            if (i == 0 || (i - r * dlin) == 0)
-            {
-                if (array2[i] % 3 == 0 && array2[i] != 0)
-                {
-                    for (int j = 0; j < dlin; j++)
-                    {
-                        cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строку
-                    }
-                    cout << endl;
-                }
-
-            }
-            if (i > z * dlin)
-            {
-                cout << endl;
-                z = z + 1;
-            }
-            cout << array2[i] << " ";
-
-            i++;
-
-        }
+        punkt(array4, width, lengths);
     }
 
-    return 0;
+
+    return EXIT_SUCCESS;
 }
 
-
-
-void rando(int* array1, const int sum, const int dlin, const int hir, int* array2)
+void zapolnrandom(int* array3, int* array4, const int width, const int lengths)
 {
-
     mt19937 gen;
     gen.seed(time(0));
-
-    for (int i = 0; i < sum; i++)
+    size_t f = 0;
+    for (int i = 0; i < width; i++)
     {
-        array1[i] = gen();
-        array2[i] = array1[i];
+        for (int j = 0; j < lengths; j++)
+        {
+            array3[f] = gen(); //заполяем массив рандомными элементами
+            array4[f] = array3[f]; //копируем 1-й массив во второй
+            f++;
+        }
+
     }
 
+}
 
-    int i = 0;
-    int r = 1;
-    int max = 0;
-    int f = 0;
-
-    while (i <= sum)
+void zapolnvod(int* array3, int* array4, const int width, const int lengths)
+{
+    size_t f = 0;
+    for (int i = 0; i < width; i++)
     {
-        if (i <= dlin * r)
+        for (int j = 0; j < lengths; j++)
         {
-            if (array1[i] >= array1[max])
+            cin >> array3[f]; //заполяем массив рандомными элементами
+            array4[f] = array3[f]; //копируем 1-й массив во второй
+            f++;
+        }
+    }
+
+}
+
+void zamena(int* array3, const int width, const int lengths)
+{
+    size_t i = 0;
+    size_t r = 1;
+    size_t max = 0;
+    size_t f = 0;
+    while (i <= width * lengths)
+    {
+        if (i <= lengths * r)
+        {
+            if (array3[i] >= array3[max])
             {
                 max = i;
             }
-            if (i == dlin * r)
+            if (i == lengths * r)
             {
-                array1[max] = 0;
+                array3[max] = 0;
             }
 
         }
         else
         {
-            array1[max] = 0;
+            array3[max] = 0;
             r = r + 1;
             max = 0;
-            if (i < dlin * r)
+            if (i < lengths * r)
             {
-                if (array1[i] >= array1[max])
+                if (array3[i] >= array3[max])
                 {
                     max = i;
                 }
@@ -151,47 +147,41 @@ void rando(int* array1, const int sum, const int dlin, const int hir, int* array
     }
 }
 
-void manual(int* array1, const int sum, const int dlin, const int hir, int* array2)
+void punkt(int* array4, const int width, const int lengths)
 {
+    cout << endl << "После выполнения пункта 2, массив выглядит так" << endl;
+    size_t i = 0;
+    size_t r = 1;
+    size_t z = 1;
 
-    for (int i = 0; i < sum; i++)
+    while (i < lengths * width)
     {
-        cin >> array1[i];
-        array2[i] = array1[i];
-    }
-    int i = 0;
-    int r = 1;
-    int max = 0;
-    int f = 0;
 
-    while (i <= sum)
-    {
-        if (i <= dlin * r)
+        if (i > r * lengths)
         {
-            if (array1[i] >= array1[max])
-            {
-                max = i;
-            }
-            if (i == dlin * r)
-            {
-                array1[max] = 0;
-            }
-
-        }
-        else
-        {
-            array1[max] = 0;
             r = r + 1;
-            max = 0;
-            if (i < dlin * r)
-            {
-                if (array1[i] >= array1[max])
-                {
-                    max = i;
-                }
-
-            }
         }
+
+        if (i == 0 || (i - r * lengths) == 0)
+        {
+            cout << endl;
+            if (array4[i] % 3 == 0 && array4[i] != 0)
+            {
+                for (int j = 0; j < lengths; j++)
+                {
+                    cout << "0" << " ";// Вставляем перед всеми строками, первый элемент которых делится на 3, строку
+                }
+                cout << endl;
+            }
+
+        }
+        if (i == z * lengths)
+        {
+            z = z + 1;
+        }
+
+        cout << array4[i] << " ";
         i++;
+
     }
 }
