@@ -11,7 +11,7 @@ void zapolnvod(int* array3, int* array4, const int width, const int lengths);
 void zamena(int* array3, const int width, const int lengths);
 void punkt(int* array4, const int width, const int lengths);
 
-int main(int argc, char* argv[])
+int main()
 {
     int punkt1;
     cout << "Если нужно заполненить массив случайными числами, введи 1 " << endl << "Если надo заполнить массив вводом с клавиатуры, введи 2" << endl;
