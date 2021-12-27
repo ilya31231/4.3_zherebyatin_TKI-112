@@ -1,343 +1,416 @@
 ﻿#include <iostream>
 #include <random>
+#include <string>
+
 using namespace std;
 /**
-   Функция меняет значения местами
-   min_Value Первое значение
-   max_Value Второе значение
+ * \brief Способ заполнения массива.
  */
-void ChangePos(int& min_Value, int& max_Value);
-/**
-   Функция позволяет ввести число предверяя его сообщением msg
-   msg Передаваемое сообщение
+enum class input_way
+{
+    /**
+     * \brief Заполнение массива при помощи ГПСЧ.
+     */
+    random,
 
- */
-int IntInput(const string& msg);
+    /**
+     * \brief Заполнение массива при помощи пользовательского ввода.
+     */
+     keyboard
+};
+
 /**
-   Функция заполняет массив случайными числами в заданном промежутке. Возможны перебои при работе с большими массивами
-   arr Передаваемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
+ * \brief
  */
-void random_fill(int** arr, const size_t of_strings, const size_t of_columns, const int min_Value, const int max_Value);
+enum class menu_item
+{
+    /**
+    * \brief
+    */
+    Show,
+    /**
+    * \brief
+    */
+    task_1,
+    /**
+    * \brief
+    */
+    task_2,
+    /**
+    * \brief
+    */
+    exit
+};
+
 /**
-   Функция позволяет пользователю вручную заполнить массив
-   arr Передаваемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
+ * \brief Функция позволяет ввести число предверяя его сообщением \a message.
+ * \param  message Передаваемое сообщение.
+ * \return Введёное пользователем число.
  */
-void Enter_with_keyboard(int** arr, const size_t of_strings, const size_t of_columns);
+int read_integer(const string& message = "") noexcept;
+
 /**
-   Функция выводит на экран данный ей массив
-   arr Передаваемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
+ * \brief Считывает способ запонения массива.
+ * \param Мотивирующее сообщение.
+ * \return Способ заполнения массива.
  */
-void ShowArr(int** arr, const size_t of_strings, const size_t of_columns);
+input_way read_input_way(const string& message = "");
+
 /**
-   Функция меняет наибольший(наибольшие) по модулю элементы на ноль
-   arr Передаваемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
+ * \brief Считывает пункт меню.
+ * \param Мотивирующее сообщение.
+ * \return Пункт меню.
  */
-void  replacement_to_0(int** arr, const size_t of_strings, const size_t of_columns);
+menu_item read_menu_item(const string& message = "");
+
 /**
-   Функция добавляет ряд нулей перед рядам с первым числом кратным 3. На данный момент плохо работает при множественном вызове
-   arr Передаваемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
-  arr
+ * \brief Считывает оазмер по одному из измерений массива.
+ * \param Мотивирующее сообщение.
+ * \return Способ заполнения массива.
+ * \exception out_of_range В случае если введён размер меньше или раен нулю.
  */
-int** New_Row_of_Zeros(int** arr, const size_t of_strings, const size_t of_columns);
+size_t read_size(const string& message = "");
+
 /**
-   Функция инициализирует двумерный массив
-   arr Инициализируемый массив
-   of_strings Количество строк
-   of_columns Количество столбцов
-  arr в случае успеха
+ * \brief Создаёт двумерный массив.
+ * \param rows Количество строк.
+ * \param columns Количество столбцов.
+ * \return Созданный массив.
  */
-int** InitArr(int** arr, const size_t of_strings, const size_t of_columns);
+int** create_array(const size_t rows, const size_t columns);
+
+/**
+ * \brief Функция заполняет массив случайными числами в заданном промежутке. Возможны перебои при работе с большими массивами.
+ * \param array Заполняемый массив.
+ * \param rows Количество строк.
+ * \param columns Количество столбцов.
+ * \param min_value Левая граница распределения.
+ * \param max_value Правая граница распределения.
+ */
+void random_fill(int** array, const size_t rows, const size_t columns, const int min_value, const int max_value);
+
+/**
+ * \brief Функция позволяет пользователю вручную заполнить массив.
+ * \param rows Количество строк.
+ * \param columns Количество столбцов.
+ */
+void read_from_keyboard(int** array, const size_t rows, const size_t columns);
+
+/**
+ * \brief  Функция выводит на экран данный ей массив.
+ * \param  array Отображаемый массив.
+ * \param  rows Количество строк.
+ * \param  columns Количество столбцов.
+ */
+void Show(const int** const array, const size_t rows, const size_t columns);
+
+/**
+ * \brief  Функция меняет наибольший(наибольшие) по модулю элементы на ноль.
+ * \param  array Исходный массив.
+ * \param  rows Количество строк.
+ * \param  columns Количество столбцов.
+ * \return Изменённый массив
+ */
+int** replace_max_element_with_zero(const int** const array, const size_t rows, const size_t columns);
+
+/**
+ * \brief Получает значение максимального элемента \a array.
+ * \param Массив элементов.
+ * \param Размер массива.
+ * \return Максимальный элемент.
+ */
+int get_max_value(const int* const array, const size_t size);
+
+/**
+ * \brief Функция добавляет ряд нулей перед рядам с первым числом кратным 3. На данный момент плохо работает при множественном вызове.
+ * \param array Исходный массив.
+ * \param rows Количество строк.
+ * \param columns Количество столбцов.
+ * \param new_array_rows out параметр, хранящий число строк изменённого массива.
+ * \return Изменённый элемент.
+ */
+int** add_rows_of_zeros(const int** const array, const size_t rows, const size_t columns, size_t& new_array_rows);
+
 /**
    Функция освобождает динамическую память массива
-   arr Массив для "зачистки"
-   of_strings Количество строк массива
+   array Массив для "зачистки"
+   rows Количество строк массива
  */
-void DeleteArr(int** arr, const size_t of_strings);
-enum class InputWay {
-    random,
-    keyboard
-};
+void Delete_array(int** array, const size_t rows);
+
 /**
    Главная функция программы
   0 в случае успеха
  */
 int main()
 {
-    size_t of_strings, of_columns;
-    cout << "Enter number of strings in array: ";
-    cin >> of_strings;
-    cout << "Enter number of columns in array: ";
-    cin >> of_columns;
-    int** arr = InitArr(arr, of_strings, of_columns);
-    cout << "Do you want fill array by yourself? \n"
-        << static_cast<int>(InputWay::random) << " - NO \n"
-        << static_cast<int>(InputWay::keyboard) << " - YES \n"
-        ">> ";
-    int choise = IntInput("");
     try
     {
-        auto chose = static_cast<InputWay>(choise);
-        switch (chose)
-        {
-        case InputWay::random:
-        {
-            int min_Value = IntInput("Input min value of array >> ");
-            int max_Value = IntInput("Input max value of array >> ");
-            if (min_Value > max_Value) {
-                ChangePos(min_Value, max_Value);
-            }
-            random_fill(arr, of_strings, of_columns, min_Value, max_Value);
-            break;
-        }
-        case InputWay::keyboard:
-        {
-            Enter_with_keyboard(arr, of_strings, of_columns);
-            break;
-        }
-        default:
-            cout << "You entered wrong choice!\n";
-            return 1;
-        }
-        ShowArr(arr, of_strings, of_columns);
+        const auto rows = read_size("Enter number of strings in arrayay: ");
+        const auto columns = read_size("Enter number of columns in arrayay: ");
 
-    }
-    catch (out_of_range&)
-    {
-        cout << "You entered wrong choice!\n";
-        return 1;
-    }
-    bool exitCode = false;
-    do
-    {
-        cout << "Choose an option:\n"
-            "1: Replace max value with 0 On each line\n"
-            "2: print a string of zeros before the first digit of each row, divisible by 3\n"
-            "3: Show array\n"
-            "0: Exit program\n"
-            "> ";
-        cin >> choise;
-        int numberStr;
+        auto array = create_array(rows, columns);
+
+        auto message = "Do you want fill arrayay by yourself? \n"
+            + to_string(static_cast<int>(input_way::random)) + " - NO \n"
+            + to_string(static_cast<int>(input_way::keyboard)) + " - YES \n"
+            + ">> ";
+
+        const auto choise = read_input_way(message);
         switch (choise)
         {
-        case 0:
-            exitCode = true;
-            break;
-        case 1:
-            replacement_to_0(arr, of_strings, of_columns);
-            break;
-        case 2:
-            arr = New_Row_of_Zeros(arr, of_strings, of_columns);
-            numberStr = 0;
-            for (int i = 1; i < of_strings; i += 2)
+        case input_way::random:
+        {
+            const auto min_value = read_integer("Input min value of arrayay >> ");
+            const auto max_value = read_integer("Input max value of arrayay >> ");
+            if (min_value > max_value)
             {
-                numberStr += 1;
+                throw logic_error("max_value have to be greater then min_value");
             }
-            of_strings = of_strings + numberStr;
+
+            random_fill(array, rows, columns, min_value, max_value);
             break;
-        case 3:
-            ShowArr(arr, of_strings, of_columns);
-            break;
-        default:
-            cout << "Not supposed input!\n";
         }
-    } while (exitCode == 0);
+        case input_way::keyboard:
+        {
+            read_from_keyboard(array, rows, columns);
+            break;
+        }
+        default:
+        {
+            throw out_of_range("You entered wrong choice!");
+        }
+        }
+
+        Show(const_cast<const int** const>(array), rows, columns);
+
+        bool chould_exit = false;
+        do
+        {
+            auto message = "Choose an option:\n"
+                + to_string(static_cast<int>(menu_item::task_1)) + ": Replace max value with 0 On each line\n"
+                + "2: print a string of zeros before the first digit of each row, divisible by 3\n"
+                + "3: Show arrayay\n"
+                + to_string(static_cast<int>(menu_item::exit)) + "Exit program\n"
+                + "> ";
+
+            const auto choise = read_menu_item(message);
+            switch (choise)
+            {
+            case menu_item::exit:
+            {
+                chould_exit = true;
+                break;
+            }
+            case menu_item::task_1:
+            {
+                const auto new_array = replace_max_element_with_zero(const_cast<const int** const>(array), rows, columns);
+                Show(const_cast<const int** const>(new_array), rows, columns);
+                Delete_array(new_array, rows);
+                break;
+            }
+            case menu_item::task_2:
+            {
+                size_t modifed_array_rows = 0;
+                auto modifed_array = add_rows_of_zeros(const_cast<const int** const>(array), rows, columns, modifed_array_rows);
+                Show(const_cast<const int** const>(modifed_array), modifed_array_rows, columns);
+                Delete_array(modifed_array, rows);
+                break;
+            }
+            case menu_item::Show:
+            {
+                Show(const_cast<const int** const>(array), rows, columns);
+                break;
+            }
+            default:
+            {
+                throw out_of_range("Not supposed input!");
+            }
+            }
+        } while (!chould_exit);
+
+        Delete_array(array, rows);
+    }
+    catch (out_of_range& error)
+    {
+        cerr << error.what() << endl;
+        return 1;
+    }
+    catch (logic_error& logic_error)
+    {
+        cerr << logic_error.what() << endl;
+        return 2;
+    }
+
     return 0;
 }
 
-void random_fill(int** arr, const size_t of_strings, const size_t of_columns, const int min_Value, const int max_Value)
+int read_integer(const string& message) noexcept
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> uniformIntDistribution(min_Value, max_Value);
-    for (int i = 0; i < of_strings; i++)
-    {
-        for (int j = 0; j < of_columns; j++)
-        {
-            arr[i][j] = uniformIntDistribution(gen);
-        }
-    }
-}
-
-void Enter_with_keyboard(int** arr, const size_t of_strings, const size_t of_columns)
-{
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            cin >> arr[i][j];
-        }
-    }
-}
-
-void ShowArr(int** arr, const size_t of_strings, const size_t of_columns)
-{
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        cout << '[' << i << "] - ";
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            if (j == of_columns - 1) {
-                cout << '[' << arr[i][j] << "]" << endl;
-                break;
-            }
-            cout << '[' << arr[i][j] << "], ";
-        }
-    }
-}
-
-void  replacement_to_0(int** arr, const size_t of_strings, const size_t of_columns)
-{
-    int max = 0;
-    int** testArr = InitArr(testArr, of_strings, of_columns);
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            testArr[i][j] = arr[i][j];
-            if (abs(max) < abs(testArr[i][j])) {
-                max = arr[i][j];
-            }
-        }
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            if (arr[i][j] == (0) * max || arr[i][j] == max)
-            {
-                arr[i][j] = (0);
-            }
-        }
-        max = 0;
-    }
-    DeleteArr(testArr, of_strings);
-}
-
-int** New_Row_of_Zeros(int** arr, const size_t of_strings, const size_t of_columns)
-{
-    int strCount = -1; //number of added strings in new array
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            if (arr[i][0] % 3 == 0)
-            {
-                strCount = strCount + 1;
-            }
-        }
-    }
-
-    int** testArr = InitArr(testArr, of_strings, of_columns);
-    int** testArr1 = InitArr(testArr1, of_strings, of_columns);
-    int** testArr2 = InitArr(testArr2, of_strings, of_columns); //нетрогать!!!!!!!!! спасает от ошибки 
-    int** testArr3 = InitArr(testArr3, of_strings, of_columns);
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            testArr[i][j] = arr[i][j]; //saving data
-            testArr1[i][j] = arr[i][j]; //нетрогать!!!!!!!!! спасает от ошибки 
-            testArr2[i][j] = arr[i][j];
-            testArr3[i][j] = arr[i][j];
-        }
-    }
-
-    DeleteArr(arr, of_strings);
-    arr = InitArr(arr, of_strings + strCount, of_columns);
-
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        for (size_t j = 0; j < of_columns; j++)
-        {
-            if (testArr[i][0] % 3 == 0 && testArr[i][0] != 0)
-            {
-                if (testArr1[i - 1][0] % 3 == 0 && testArr1[i - 1][0] != 0 && (i - 1) != (-1))
-                {
-                    for (size_t j = 0; j < of_columns; j++)
-                    {
-                        arr[i + 1][j] = 0;
-                        arr[i + 2][j] = testArr1[i][j];
-                    }
-                }
-                else
-                {
-                    for (size_t j = 0; j < of_columns; j++)
-                    {
-                        arr[i][j] = 0;
-                        arr[i + 1][j] = testArr1[i][j];
-                    }
-
-                }
-
-            }
-            else
-            {
-                if (i > 0)
-                {
-                    if (testArr3[i - 1][0] % 3 == 0)
-                    {
-                        arr[i + 1][j] = testArr3[i][j];
-
-                    }
-                    else
-                    {
-                        arr[i][j] = testArr3[i][j];
-
-                    }
-
-                }
-                else
-                {
-                    arr[i][j] = testArr3[i][j];
-                }
-            }
-        }
-    }
-
-
-    DeleteArr(testArr, of_strings);
-    return arr;
-}
-
-int** InitArr(int** testArr, const size_t of_strings, const size_t of_columns)
-{
-    testArr = new int* [of_strings];
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        testArr[i] = new int[of_columns];
-    }
-    return testArr;
-}
-
-void DeleteArr(int** arr, const size_t of_strings)
-{
-    for (size_t i = 0; i < of_strings; i++)
-    {
-        if (arr[i] != nullptr)
-        {
-            delete[] arr[i];
-        }
-    }
-}
-
-int IntInput(const string& msg)
-{
-    cout << msg;
-    int x;
+    cout << message;
+    int x = 0;
     cin >> x;
     return x;
 }
 
-void ChangePos(int& min_Value, int& max_Value)
+input_way read_input_way(const string& message)
 {
-    auto temp = min_Value;
-    min_Value = max_Value;
-    max_Value = temp;
+    const auto choise = read_integer(message);
+    return static_cast<input_way>(choise);
 }
+
+menu_item read_menu_item(const string& message)
+{
+    const auto choise = read_integer(message);
+    return static_cast<menu_item>(choise);
+}
+
+size_t read_size(const string& message)
+{
+    const auto size = read_integer(message);
+    if (size < 0)
+    {
+        throw out_of_range("size have to be greater than zero");
+    }
+    return static_cast<size_t>(size);
+}
+
+int** create_array(const size_t rows, const size_t columns)
+{
+    auto array = new int* [rows];
+    for (size_t i = 0; i < rows; i++)
+    {
+        array[i] = new int[columns];
+    }
+
+    return array;
+}
+
+void random_fill(int** array, const size_t rows, const size_t columns, const int min_value, const int max_value)
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> uniformIntDistribution(min_value, max_value);
+
+    for (size_t i = 0; i < rows; i++)
+    {
+        for (size_t j = 0; j < columns; j++)
+        {
+            array[i][j] = uniformIntDistribution(gen);
+        }
+    }
+}
+
+void read_from_keyboard(int** array, const size_t rows, const size_t columns)
+{
+    for (size_t i = 0; i < rows; i++)
+    {
+        for (size_t j = 0; j < columns; j++)
+        {
+            cin >> array[i][j];
+        }
+    }
+}
+
+void Show(const int** const array, const size_t rows, const size_t columns)
+{
+    for (size_t i = 0; i < rows; i++)
+    {
+        cout << '[' << i << "] - ";
+        size_t j = 0;
+
+        for (; j < columns; j++)
+        {
+            cout << '[' << array[i][j] << "], ";
+        }
+        cout << endl;
+
+    }
+}
+
+int** replace_max_element_with_zero(const int** const array, const size_t rows, const size_t columns)
+{
+    int** new_array = create_array(rows, columns);
+
+    for (size_t i = 0; i < rows; i++)
+    {
+        const auto max_value = get_max_value(array[i], columns);
+        for (size_t j = 0; j < columns; j++)
+        {
+            new_array[i][j] = array[i][j] == max_value
+                ? 0
+                : array[i][j];
+        }
+    }
+
+    return new_array;
+}
+
+int get_max_value(const int* const array, const size_t size)
+{
+    int max_value = array[0];
+    for (size_t i = 0; i < size; i++)
+    {
+        if (max_value < array[i])
+        {
+            max_value = array[i];
+        }
+    }
+
+    return max_value;
+}
+
+int** add_rows_of_zeros(const int** const array, const size_t rows, const size_t columns, size_t& new_array_rows)
+{
+    int added_rows_count = 0;
+    for (size_t i = 0; i < rows; i++)
+    {
+        if (array[i][0] % 3 == 0)
+        {
+            added_rows_count++;
+        }
+    }
+
+    new_array_rows = rows + added_rows_count;
+    auto new_array = create_array(new_array_rows, columns);
+
+    size_t k = 0;
+    for (size_t i = 0; i < rows; i++)
+    {
+        if (array[i][0] % 3 == 0)
+        {
+            for (size_t j = 0; j < columns; j++)
+            {
+                new_array[k][j] = 0;
+            }
+            k++;
+        }
+
+        for (size_t j = 0; j < columns; j++)
+        {
+            new_array[k][j] = array[i][j];
+        }
+        k++;
+    }
+
+    return new_array;
+}
+
+void Delete_array(int** array, const size_t rows)
+{
+    if (array != nullptr)
+    {
+        for (size_t i = 0; i < rows; i++)
+        {
+            if (array[i] != nullptr)
+            {
+                delete[] array[i];
+                array[i] = nullptr;
+            }
+        }
+
+        delete[] array;
+        array = nullptr;
+    }
+}
+
