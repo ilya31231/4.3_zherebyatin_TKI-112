@@ -20,24 +20,24 @@ enum class input_way
 };
 
 /**
- * \brief
+ * \brief Меню.
  */
 enum class menu_item
 {
     /**
-    * \brief
+    * \brief Показывает массив.
     */
-    Show,
+    show,
     /**
-    * \brief
+    * \brief Заменить максимальный элемент массив на 0.
     */
     task_1,
     /**
-    * \brief
+    * \brief Добавить ряд нулей перед строкой, если первый элемент кратен 3.
     */
     task_2,
     /**
-    * \brief
+    * \brief Завершает программу.
     */
     exit
 };
@@ -102,10 +102,10 @@ void read_from_keyboard(int** array, const size_t rows, const size_t columns);
  * \param  rows Количество строк.
  * \param  columns Количество столбцов.
  */
-void Show(const int** const array, const size_t rows, const size_t columns);
+void show(const int** const array, const size_t rows, const size_t columns);
 
 /**
- * \brief  Функция меняет наибольший(наибольшие) по модулю элементы на ноль.
+ * \brief  Функция меняет наибольший(наибольшие) элементы на ноль.
  * \param  array Исходный массив.
  * \param  rows Количество строк.
  * \param  columns Количество столбцов.
@@ -122,7 +122,7 @@ int** replace_max_element_with_zero(const int** const array, const size_t rows, 
 int get_max_value(const int* const array, const size_t size);
 
 /**
- * \brief Функция добавляет ряд нулей перед рядам с первым числом кратным 3. На данный момент плохо работает при множественном вызове.
+ * \brief Функция  добавляет ряд нулей перед строкой, если первый элемент кратен 3.
  * \param array Исходный массив.
  * \param rows Количество строк.
  * \param columns Количество столбцов.
@@ -132,11 +132,11 @@ int get_max_value(const int* const array, const size_t size);
 int** add_rows_of_zeros(const int** const array, const size_t rows, const size_t columns, size_t& new_array_rows);
 
 /**
-   Функция освобождает динамическую память массива
-   array Массив для "зачистки"
-   rows Количество строк массива
+ * \brief  Функция освобождает динамическую память массива
+ * \param  array Массив для "зачистки"
+ * \param  rows Количество строк массива
  */
-void Delete_array(int** array, const size_t rows);
+void delete_array(int** array, const size_t rows);
 
 /**
    Главная функция программы
@@ -146,7 +146,7 @@ int main()
 {
     try
     {
-        const auto rows = read_size("Enter number of strings in arrayay: ");
+        const auto rows = read_size("Enter number of rows in arrayay: ");
         const auto columns = read_size("Enter number of columns in arrayay: ");
 
         auto array = create_array(rows, columns);
@@ -182,16 +182,16 @@ int main()
         }
         }
 
-        Show(const_cast<const int** const>(array), rows, columns);
+        show(const_cast<const int** const>(array), rows, columns);
 
         bool chould_exit = false;
         do
         {
             auto message = "Choose an option:\n"
-                + to_string(static_cast<int>(menu_item::task_1)) + ": Replace max value with 0 On each line\n"
-                + "2: print a string of zeros before the first digit of each row, divisible by 3\n"
-                + "3: Show arrayay\n"
-                + to_string(static_cast<int>(menu_item::exit)) + "Exit program\n"
+                + to_string(static_cast<int>(menu_item::task_1)) + " replace max value with 0 On each line\n"
+                + to_string(static_cast<int>(menu_item::task_2)) + " print a rows of zeros before the first digit of each row, divisible by 3\n"
+                + to_string(static_cast<int>(menu_item::show)) + " show arrayay\n"
+                + to_string(static_cast<int>(menu_item::exit)) + " exit program\n"
                 + "> ";
 
             const auto choise = read_menu_item(message);
@@ -205,21 +205,21 @@ int main()
             case menu_item::task_1:
             {
                 const auto new_array = replace_max_element_with_zero(const_cast<const int** const>(array), rows, columns);
-                Show(const_cast<const int** const>(new_array), rows, columns);
-                Delete_array(new_array, rows);
+                show(const_cast<const int** const>(new_array), rows, columns);
+                delete_array(new_array, rows);
                 break;
             }
             case menu_item::task_2:
             {
                 size_t modifed_array_rows = 0;
                 auto modifed_array = add_rows_of_zeros(const_cast<const int** const>(array), rows, columns, modifed_array_rows);
-                Show(const_cast<const int** const>(modifed_array), modifed_array_rows, columns);
-                Delete_array(modifed_array, rows);
+                show(const_cast<const int** const>(modifed_array), modifed_array_rows, columns);
+                delete_array(modifed_array, rows);
                 break;
             }
-            case menu_item::Show:
+            case menu_item::show:
             {
-                Show(const_cast<const int** const>(array), rows, columns);
+                show(const_cast<const int** const>(array), rows, columns);
                 break;
             }
             default:
@@ -229,7 +229,7 @@ int main()
             }
         } while (!chould_exit);
 
-        Delete_array(array, rows);
+        delete_array(array, rows);
     }
     catch (out_of_range& error)
     {
@@ -312,7 +312,7 @@ void read_from_keyboard(int** array, const size_t rows, const size_t columns)
     }
 }
 
-void Show(const int** const array, const size_t rows, const size_t columns)
+void show(const int** const array, const size_t rows, const size_t columns)
 {
     for (size_t i = 0; i < rows; i++)
     {
@@ -396,7 +396,7 @@ int** add_rows_of_zeros(const int** const array, const size_t rows, const size_t
     return new_array;
 }
 
-void Delete_array(int** array, const size_t rows)
+void delete_array(int** array, const size_t rows)
 {
     if (array != nullptr)
     {
@@ -412,5 +412,5 @@ void Delete_array(int** array, const size_t rows)
         delete[] array;
         array = nullptr;
     }
-}
+
 
